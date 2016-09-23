@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style media="screen">
+            table, tr, th, td {
+                border: 1px solid black;
+            }
+            table {
+                width: 90%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome, {{this_user.name}}</h1>
+        <a href="{% url 'landr:logout'%}">Logout</a>
+        <h2>NUMBER people poked you!</h2>
+        <div>
+            <p>USER poked you NUMBER time(s).</p>
+        </div>
+        <h2>People you may want to poke:</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Alias</th>
+                <th>Email Address</th>
+                <th>Poke History</th>
+                <th>Action</th>
+            </tr>
+            {% for user in other_users %}
+                <tr>
+                    <td>{{user.name}}</td>
+                    <td>{{user.alias}}</td>
+                    <td>{{user.email}}</td>
+                    <td></td>
+                    <td>
+                        <form action="{% url 'landr:poke' id=this_user.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" name="{{user.name}}" value="Poke!">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
